@@ -1,53 +1,24 @@
-// projectHash.cpp : Defines the entry point for the console application.
-//
 
 #include "stdafx.h"
 #include <iostream>
-#include <list>
-#include <map>
+#include "Stack.h"
+#include "STL.h"
+
 using namespace std;
 
-list <int> gList;
+list<int> gList;
 list<int>::iterator lIter;
 
-std::map <std::string, int> gMap;
-std::map <std::string, int>::iterator MIter;
+map <std::string, int> gMap;
+map <std::string, int>::iterator MIter;
 
-template <class T> class myStack {
-private:
-	T stack[10];
-	int top = -1;
+myStack<int> numStack;
 
-public:
-	int push(T ele);
-	int pop();
-	void stackTop() { cout << "Stack top:" << stack[top] << endl; }
-};
-
-template <class T> int myStack<T>::push(T ele)
+void stl_entry()
 {
-	if (top >= 9)
-	{
-		cout << "ERROR:  stack is full";
-		return -1;
-	}
-	stack[++top] = ele;
-	return 0;
-}
-
-template <class T> int myStack<T>::pop()
-{
-	if (top == -1)
-	{
-		cout << "Stack is empty";
-		return -1;
-	}
-	top--;
-	return 0;
-}
-
-int main()
-{
+	/********************
+	List practice
+	*********************/
 	cout << "Hello List!!" << endl;
 	gList.push_back(1);
 	gList.push_front(2);
@@ -60,7 +31,9 @@ int main()
 	for (lIter = gList.begin(); lIter != gList.end(); lIter++)
 		cout << *lIter << "|";
 	cout << endl;
-
+	/********************
+	Map practice
+	*********************/
 	gMap.insert(pair<std::string, int>("nitin", 1));
 	gMap.insert(pair<std::string, int>("tina", 2));
 	gMap.insert(pair<std::string, int>("advit", 3));
@@ -71,7 +44,10 @@ int main()
 		cout << (*MIter).first.c_str() << ": " << (*MIter).second << "|";
 	cout << endl;
 
-	myStack<int> numStack;
+	/********************
+	Template practice
+	*********************/
+	
 	for (int i = 0; i < 10;i++)
 	{
 		numStack.push(i);
@@ -84,8 +60,30 @@ int main()
 		numStack.pop();
 	}
 
+	/*
+	Following implementation is not correct.
 
-	getchar();
-	return 0;
+	Learning:
+	Template functions are general and type independent
+	but still template funtions expect similar type of data type
+	e.g. int, double, float etc and the string, or char*
+	*/
+
+	/*
+	myStack<char*> strStack;
+	char str[5];
+	for (int i = 100000000; i < 100000010;i++)
+	{
+	itoa(i, str, 10);
+	strStack.push(str);
+	strStack.stackTop();
+	}
+
+	for (int i = 0; i < 10;i++)
+	{
+	strStack.stackTop();
+	strStack.pop();
+	}
+	*/
+
 }
-
