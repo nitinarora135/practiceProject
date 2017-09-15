@@ -307,7 +307,6 @@ int binaryTree()
 
 	cout << endl << "Is BST:" << bt.isBST(bt.headnode()) << "ABST:" << bt.isABST(bt.headnode());
 
-	getchar();
 	return 0;
 }
 
