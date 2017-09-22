@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "BinaryTree.h"
 #include "STL.h"
+#include "AdhocPracticeHere.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ int main()
 	cout << "**********************" << endl;
 	cout << "1. Standard Template Library (Press 's')" << endl;
 	cout << "2. Binary Tree               (Press 'b')" << endl;
+	cout << "3. Practice program          (Press 'p')" << endl;
 
 
 	choice = getchar();
@@ -26,6 +28,17 @@ int main()
 
 	case 'b':
 		binaryTree();
+		break;
+	// 'p' stands for ad-hoc practice programs
+	case 'p':
+		sumofbitdifference();
+		effSumBitDiff();
+		power(3, 5);
+		//rotateMatrix();
+		writenuminpoweroftwo(-76);
+		resetthesignbit(-76);
+
+		rotatewoutxtraspace();
 		break;
 	default:
 		cout << "no choice" << endl;
