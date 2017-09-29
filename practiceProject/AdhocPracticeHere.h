@@ -9,4 +9,11 @@ extern void writenuminpoweroftwo(int);
 extern void resetthesignbit(int signedvar);
 
 extern void rotatewoutxtraspace();
+extern void sudoku();
+extern int assignDigitToCell(int grid[][9], int r, int c);
+extern void reverseString(char* str);
+extern int factorial(int );
+
+
+
 

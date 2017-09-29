@@ -17,6 +17,7 @@ int main()
 	cout << "2. Binary Tree               (Press 'b')" << endl;
 	cout << "3. Practice program          (Press 'p')" << endl;
 
+	char str[64] = "My name is nitin";
 
 	choice = getchar();
 	system("cls");
@@ -39,6 +40,9 @@ int main()
 		resetthesignbit(-76);
 
 		rotatewoutxtraspace();
+		sudoku();
+		reverseString(str);
+		cout << "Factorial:" << factorial(3);
 		break;
 	default:
 		cout << "no choice" << endl;
