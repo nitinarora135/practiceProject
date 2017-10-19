@@ -34,6 +34,10 @@ public:
 	int isBST(struct node*);
 	int isLeftSubTreeSmaller(struct node*, int data);
 	int isRightSubTreeLarger(struct node*, int data);
+	int countRangeNodes(struct node* n, int min, int max);
+	int sumR2L(struct node* n, int isum);
+	static int mergeTree(struct node* t1, struct node* t2);
+
 	int isABST(struct node*);
 
 };

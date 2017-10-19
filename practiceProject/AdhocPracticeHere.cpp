@@ -508,3 +508,228 @@ int isPalindrome(char* str)
 	return 1;
 }
 
+int isMetaStr(char* str1, char* str2)
+{
+	char c1 = 0, c2 = 0;
+	int count1 = 0, count2 = 0;
+	char metaString =0;
+
+	//Complexity O(n)
+	while (*str1 || *str2)
+	{
+		if (metaString == 0 && *str1 != *str2 && c1 != 0 && c2 != 0)
+		{
+			if (*str1 == c2 && *str2 == c1)
+			{
+				str1++;
+				str2++;
+				metaString = 1;
+				continue;
+			}
+		}
+
+		if (*str1 == *str2)
+		{
+			str1++;
+			str2++;
+			continue;
+		}
+
+		if (c1 == 0 && c2 == 0)
+		{
+			c1 = *str1;
+			c2 = *str2;
+			str1++;
+			str2++;
+			continue;
+		}
+
+		return 0;
+	}
+	return metaString;
+}
+
+/*******************************************************************************************************
+********** Find largest word in dictionary by deleting some characters of given string *****************
+http://www.geeksforgeeks.org/find-largest-word-dictionary-deleting-characters-given-string/
+********************************************************************************************************/
+int isSubString(char* dstr, char* str)
+{
+	if (dstr == 0 || str == 0)
+		return 0;
+
+	while (*str)
+	{
+		if (*dstr == *str)
+		{
+			dstr++;
+			str++;
+		}
+		else
+			str++;
+	}
+
+	if (*dstr == 0)
+		return 1;
+	else
+		return 0;
+}
+
+int largestWordInDict(char dict[10][20], char* str)
+{
+	//int dictsz = sizeof(dict[0]) / sizeof(dict[0][0]);
+	int dictsz = 10;
+	int idx = -1;
+	cout << "In largestWordInDict: dictsz: " << dictsz << ", sizeof(dict)" << sizeof(dict) << ",sizeof(dict[0]): " 
+		<< sizeof(dict[0]) << ",sizeof(dict[0][0]:"<< sizeof(dict[0][0]) << endl;
+
+	for (int i = 0; i < dictsz; i++)
+	{
+		if (isSubString(dict[i], str))
+			if(idx == -1 || strlen(dict[i]) > strlen(dict[idx]))
+				idx = i;
+	}
+	if (idx == -1)
+		cout << "No such word exists" << endl;
+	else
+		cout << "word found : " << dict[idx];
+
+	return 1;
+}
+
+/*
+
+*/
+int fillSlot(int sz, int bc, int cc, char let, int *cnt)
+{
+	char al = 'a', bl = 'b', cl = 'c';
+
+	if (sz == 0)
+		return 1;
+
+	if (bc == 1 && cc == 2)
+		*cnt += fillSlot(sz - 1, bc, cc, 'a', cnt);
+	else if (bc == 1)
+	{
+		*cnt += fillSlot(sz - 1, bc, cc, 'a', cnt);
+		*cnt += fillSlot(sz - 1, bc, cc+1, 'c', cnt);
+	}
+	else if (cc == 2)
+	{
+		*cnt += fillSlot(sz - 1, bc, cc, 'a', cnt);
+		*cnt += fillSlot(sz - 1, bc+1, cc, 'b', cnt);
+	}
+	else
+	{
+		*cnt += fillSlot(sz - 1, bc, cc, 'a', cnt);
+		*cnt += fillSlot(sz - 1, bc+1, cc, 'b', cnt);
+		*cnt += fillSlot(sz - 1, bc, cc+1, 'c', cnt);
+	}
+
+	return 0;
+}
+
+/*
+My own design.
+permuting a string without swap 
+*/
+
+void permute(char* str, char* pers, char* pere)
+{
+	char rchars[20] = { 0 };
+	int sz = strlen(str);
+	int k = 0;
+
+	if (*str == '\0')
+	{
+		cout << pers << endl;
+		return;
+	}
+
+	for (int i = 0; i < sz; i++)
+	{
+		*pere = str[i];
+		k = 0;
+		for (int j = 0; j <= sz; j++)
+			if (i != j) 
+				rchars[k++] = *(str+j);
+
+		permute(rchars, pers, pere + 1);
+	}
+}
+
+void permutation(char* str)
+{
+	char space[20] = { 0 };
+
+	cout << "Permutations of string : '" << str << "' as follows :" << endl;
+	permute(str, space, space);
+}
+
+/*
+Find all triplets with zero sum
+http://www.geeksforgeeks.org/find-triplets-array-whose-sum-equal-zero/
+
+Complexity: O(n^3)
+Space: O(1)
+*/
+
+void triplets_n3(int a[], int sz)
+{
+	for(int i =0;i<sz;i++)
+		for(int j=i+1;j<sz; j++)
+			for (int k = j + 1;k < sz;k++)
+				if (!(a[i] + a[j] + a[k]))
+					cout << "{" << i << "," << j << "," << k << "}" << ", {" << a[i] << "," << a[j] << "," << a[k] << "}" << endl;
+					//printf("{%d,%d,%d},{%d,%d,%d}\n", i, j, k, a[i], a[j], a[k]);
+}
+// following all_triplets is same as nCr
+void all_triplets(int a[], int sz)
+{
+	cout << "All triplets: " << endl;
+	for (int i = 0;i<sz;i++)
+		for (int j = i + 1;j<sz; j++)
+			for (int k = j + 1;k < sz;k++)
+				//if (!(a[i] + a[j] + a[k]))
+					cout << "{" << i << "," << j << "," << k << "}" << ", {" << a[i] << "," << a[j] << "," << a[k] << "}" << endl;
+	//printf("{%d,%d,%d},{%d,%d,%d}\n", i, j, k, a[i], a[j], a[k]);
+}
+
+//int numbers[10] = { 0, -1, 1, 2, -3, 5, -4, -5, -2, 3 };
+int numbers[4] = { 1,2,3,4 };
+
+//Lets try to make a recursive implementation for nCr
+//r = 2, n=10
+
+int ncr_rec(int trip[], int n, int r)
+{
+	int count = 0;
+	for (int i = n - 1; i >= 0; i--)
+	{
+		trip[r] = numbers[i];
+
+		if (r > 0)
+			count += ncr_rec(trip, n - 1, r - 1);
+
+		else
+		{
+			cout << "{";
+			for (int j = 0; j < 3; j++)
+				cout << trip[j] << ", ";
+			cout << "}" << endl;
+		
+			return count+1;
+		}
+	}
+	return count;
+}
+
+int recMax(int arr[], int sz)
+{
+	if (sz == 2)
+		return (arr[sz - 1] > arr[sz - 2]) ? arr[sz - 1] : arr[sz - 2];
+
+	int ret = recMax(arr, sz - 1);
+
+	return (ret > arr[sz - 1]) ? ret : arr[sz - 1];
+}

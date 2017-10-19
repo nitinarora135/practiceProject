@@ -279,16 +279,99 @@ template <typename T> int bTree<T>::isABST(struct node* root) {
 	return isBST(root->right);
 }
 
+template <typename T> int bTree<T>::countRangeNodes(struct node* n, int min, int max) 
+{
+	int count=0;
+
+	if (n == NULL)
+		return 0;
+
+	if (n->data > min)
+		count += countRangeNodes(n->left, min, max);
+	if(n->data < max)
+		count += countRangeNodes(n->right, min, max);
+	else
+		return 0;
+
+	return count+1;
+}
+
+template <typename T> int bTree<T>::sumR2L(struct node* n, int isum)
+{
+	int sum = 0;
+
+	isum += n->data;
+
+	if (n == NULL)
+		return 0;
+
+	if (n->left == NULL && n->right == NULL)
+		return isum;
+
+	sum = sumR2L(n->left, isum);
+	sum += sumR2L(n->right, isum);
+
+	return sum;
+}
+
+/* Most solutions are using extra space, my soln below doesn't use extra space but fails in few cases 
+need to figure out the perfect solution */
+template <typename T> int bTree<T>::mergeTree(struct node* t1, struct node* t2)
+{
+	int lastdata;
+	int ret;
+
+	if (t1 == NULL || t2 == NULL)
+		return 0;
+
+	if (t1->data < t2->data)
+		lastdata = t2->data;
+	else
+		lastdata = t1->data;
+
+	if (t1->data < t2->data)
+		ret = mergeTree(t1, t2->left);
+	else
+		ret = mergeTree(t1->left, t2);
+
+	if (t1->data < t2->data)
+		cout << t1->data << ", ";
+	else
+		cout << t2->data << ", ";
+
+
+	if (t1->data > t2->data)
+		ret = mergeTree(t1, t2->right);
+	else
+		ret = mergeTree(t1->right, t2);
+	
+	if (ret > lastdata)
+		lastdata = ret;
+
+	return lastdata;
+}
+
 //template <class T> 
 int binaryTree()
 {
 	/********************
 	Binary Tree practice
 	*********************/
-	bTree<int> bt;	
+	bTree<int> bt, t1, t2;	
 	bt.initBT();
+	t1.initBT();
+	t2.initBT();
 
 	int array[10] = {6,4,8,2,5,7,9,1,3 };
+	int dt1[5] = { 6, 4, 8, 2, 5};
+	int dt2[3] = { 5, 3 };
+
+	for (int i = 0; i < 5;i++)
+		t1.insertNR(dt1[i]);
+
+	for (int i = 0; i < 2;i++)
+		t2.insertNR(dt2[i]);
+
 	for (int i = 0; i < 9;i++)
 		bt.insertNR(array[i]);
 
@@ -297,7 +380,10 @@ int binaryTree()
 	//cout << "Leaf nodes count:" << bt.countLeafNodes(bt.headnode());
 
 	//bt.preorder(bt.headnode(), *bt.countLeafNodes(bt.headnode()));
-	bt.printTree(bt.headnode(), 2 * bt.countLeafNodes(bt.headnode()));
+	//bt.printTree(bt.headnode(), 2 * bt.countLeafNodes(bt.headnode()));
+
+	t1.printTree(t1.headnode(), 2 * t1.countLeafNodes(t1.headnode()));
+	t2.printTree(t2.headnode(), 2 * t2.countLeafNodes(t2.headnode()));
 
 	//bt.inorderNR(bt.headnode());
 
@@ -306,6 +392,15 @@ int binaryTree()
 	cout << endl << "Tree depth:" << bt.treeDepthNR(bt.headnode());
 
 	cout << endl << "Is BST:" << bt.isBST(bt.headnode()) << "ABST:" << bt.isABST(bt.headnode());
+
+	cout << endl << "Count Range Nodes:" << bt.countRangeNodes(bt.headnode(), 3, 7) << endl;
+
+	cout << endl << "Sum Root to leaf : " << bt.sumR2L(bt.headnode(), 0) << endl;
+
+	cout << endl << "MergeTrees:" << endl;
+
+	int ldata = bTree<int>::mergeTree(t1.headnode(), t2.headnode());
+	cout << ldata;
 
 	return 0;
 }
